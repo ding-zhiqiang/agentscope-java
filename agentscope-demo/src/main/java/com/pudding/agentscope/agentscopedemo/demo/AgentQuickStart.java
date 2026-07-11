@@ -1,9 +1,7 @@
-package com.pudding.agentscope.agentscopedemo;
+package com.pudding.agentscope.agentscopedemo.demo;
 
 import io.agentscope.core.agent.RuntimeContext;
-import io.agentscope.core.event.AgentEventType;
 import io.agentscope.core.event.TextBlockDeltaEvent;
-import io.agentscope.core.event.ToolCallStartEvent;
 import io.agentscope.core.message.Msg;
 import io.agentscope.core.model.OpenAIChatModel;
 import io.agentscope.harness.agent.HarnessAgent;

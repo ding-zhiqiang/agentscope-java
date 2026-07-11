@@ -1,14 +1,26 @@
-package com.pudding.agentscope.agentscopedemo;
+package com.pudding.agentscope.agentscopedemo.demo;
 
+import com.pudding.agentscope.agentscopedemo.tools.WeatherTool;
 import io.agentscope.core.ReActAgent;
 import io.agentscope.core.message.Msg;
 import io.agentscope.core.message.UserMessage;
 import io.agentscope.core.model.OpenAIChatModel;
+import io.agentscope.core.permission.PermissionContextState;
+import io.agentscope.core.permission.PermissionMode;
 import io.agentscope.core.tool.Toolkit;
+import io.agentscope.core.tool.file.ReadFileTool;
+import io.agentscope.core.tool.file.WriteFileTool;
 
 public class ReActAgentDemo {
     static void main() {
         Toolkit toolkit = new Toolkit();
+        toolkit.registerTool(new WeatherTool());
+        toolkit.registerTool(new WriteFileTool());
+        toolkit.registerTool(new ReadFileTool());
+
+        PermissionContextState permissionContextState = PermissionContextState.builder()
+                .mode(PermissionMode.DEFAULT)
+                .build();
 
         ReActAgent agent = ReActAgent.builder()
                 .name("ReActAgentDemo")
@@ -19,6 +31,7 @@ public class ReActAgentDemo {
                         .apiKey("sk-3928c9ff735d48f59f3f4586f421a593")
                         .build())
                 .defaultSessionId("pudding001")
+                .permissionContext(permissionContextState)
                 .toolkit(toolkit)
                 .build();
 
@@ -30,7 +43,7 @@ public class ReActAgentDemo {
         // Msg block = agent.call(Msg.builder().textContent("你好，你知道我的爱好吗？").build()).block();
 
         // 方式二
-        Msg block = agent.call(new UserMessage("你好，你知道我的爱好吗？")).block();
+        Msg block = agent.call(new UserMessage("你好，上海的天气怎么样？")).block();
         System.out.println(block.getTextContent());
     }
 }
