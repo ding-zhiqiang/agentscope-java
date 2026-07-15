@@ -9,6 +9,7 @@ import io.agentscope.core.model.OpenAIChatModel;
 import io.agentscope.core.permission.*;
 import io.agentscope.core.state.JsonFileAgentStateStore;
 import io.agentscope.core.tool.Toolkit;
+import io.agentscope.core.tool.file.ReadFileTool;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -20,13 +21,16 @@ public class PermissionContextDemo {
 
     static void main() {
         PermissionContextState permissionContextState = PermissionContextState.builder()
-                .mode(PermissionMode.DEFAULT)
-                .addAskRule("dangerous_delete",
-                        new PermissionRule("dangerous_delete", null, PermissionBehavior.ASK, "userSettings"))
+                .mode(PermissionMode.BYPASS)
+                // .addAskRule("dangerous_delete",
+                //         new PermissionRule("dangerous_delete", null, PermissionBehavior.ASK, "userSettings"))
+                .addWorkingDirectory("/Users/pudding/Data/gitCode/agentscope-java",
+                        new AdditionalWorkingDirectory("/Users/pudding/Data/gitCode/agentscope-java", "userSettings"))
                 .build();
 
         Toolkit toolkit = new Toolkit();
         toolkit.registerTool(new WeatherTool());
+        toolkit.registerTool(new ReadFileTool("/Users/pudding/Data/gitCode/agentscope-java"));
 
         ReActAgent agent = ReActAgent.builder()
                 .name("ReActAgentDemo")
@@ -51,7 +55,7 @@ public class PermissionContextDemo {
                 .build();
 
         // 使用带 userId/sessionId 的 RuntimeContext 发起流式调用
-        UserMessage userMessage = new UserMessage("user", "上海的天气怎么样？");
+        UserMessage userMessage = new UserMessage("user", "读取/Users/pudding/Data/gitCode/agentscope-java/README_zh.md文件的内容");
         Msg block = agent.call(List.of(userMessage), ctx).block();
         System.out.println(block.getTextContent());
     }
