@@ -38,7 +38,7 @@ public class UserIsolatedMultiTurnsExample {
         Model model =
                 DashScopeChatModel.builder()
                         .apiKey(System.getenv("DASHSCOPE_API_KEY"))
-                        .modelName("qwen-max")
+                        .modelName("qwen3.7-plus")
                         .stream(true)
                         .build();
 

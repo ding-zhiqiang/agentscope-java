@@ -25,7 +25,7 @@ public class AgentQuickStart {
                 // 字符串形式由 ModelRegistry 解析 —— 自动读取 DASHSCOPE_API_KEY；
                 // 切换其他厂商时改用 "openai:gpt-5.5"、"anthropic:claude-sonnet-4-5"、
                 // "gemini:gemini-2.0-flash" 或 "ollama:llama3"。
-                // .model("deepseek:deepseek-v4-pro")
+                // .model("dashscope:qwen3.7-plus")
                 .workspace(Paths.get(".agentscope/workspace"))
                 .compaction(CompactionConfig.builder()
                         .triggerMessages(30)
